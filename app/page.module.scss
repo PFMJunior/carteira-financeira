@@ -1,0 +1,14 @@
+.homepageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    min-height: 100vh;
+}
+
+@media only screen and (max-width: 1024px) {
+    .homepageContainer {
+        padding: 0 1.5rem;
+    }
+}
