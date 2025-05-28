@@ -1,0 +1,115 @@
+.depositPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--color-secondary-light);
+
+    min-height: 100vh;
+    padding: 2rem;
+
+    .operationFormContainer {
+        background-color: var(--color-primary-dark);
+        border-radius: 0.5rem;
+        box-shadow: 0 0.4rem 2rem rgba(0, 0, 0, 0.05);
+
+        padding: 2rem;
+
+        h1 {
+            color: var(--white);
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .formCard {
+            border-radius: 1rem;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+            padding: 3rem;
+
+            .currentBalanceInfo {
+                color: var(--white);
+                font-size: 1.1em;
+                margin-bottom: 2rem;
+                text-align: center;
+
+                .currentBalanceValue {
+                    color: var(--success-color);
+                    font-weight: bold;
+                    font-size: 1.2em;
+                }
+            }
+        }
+
+        .depositForm {
+            .formGroup {
+                margin-bottom: 2rem;
+
+                label {
+                    display: block;
+
+                    color: var(--white);
+                    font-weight: bold;
+                    margin-bottom: 0.8rem;
+                }
+
+                input,
+                textarea {
+                    border: 1px solid var(--border-color);
+                    border-radius: 0.8rem;
+                    box-sizing: border-box;
+
+                    font-size: 1rem;
+                    padding: 1.5rem 1.5rem;
+                    width: 100%;
+                    transition:
+                        border-color 0.3s ease,
+                        box-shadow 0.3s ease;
+
+                    &:focus {
+                        border-color: var(--background-button-register);
+                        box-shadow: 0 0 0 3px rgba(var(--background-button-register), 0.2);
+                        outline: none;
+                    }
+
+                    &::placeholder {
+                        color: #b0b0b0;
+                    }
+                }
+
+                textarea {
+                    resize: vertical;
+                    min-height: 8rem;
+                }
+            }
+
+            .submitButton {
+                background-color: var(--background-button-register);
+                border: 0;
+                border-radius: 0.8rem;
+
+                color: #fff;
+                cursor: pointer;
+
+                font-size: 1.4rem;
+                font-weight: bold;
+
+                margin-top: 0.5rem;
+                padding: 1.4rem 2rem;
+                transition:
+                    background-color 0.3s ease,
+                    transform 0.2s ease;
+                width: 100%;
+
+                &:hover {
+                    background-color: darken(#007bff, 10%);
+                    transform: translateY(-2px);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+            }
+        }
+    }
+}
