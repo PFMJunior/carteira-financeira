@@ -8,21 +8,21 @@ import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
-    const router                                 = useRouter();
-    const [cpf, setCpf]                          = useState('');
-    const [message, setMessage]                  = useState('');
-    const [password, setPassword]                = useState('');
-    const [birthDate, setBirthDate]              = useState('');
-    const { isAuthenticated, isLoading, logout } = useAuth();
-
-    // console.log("isAuthenticated", isAuthenticated)
+    const router                               = useRouter();
+    const [cpf, setCpf]                        = useState('');
+    const [message, setMessage]                = useState('');
+    const [password, setPassword]              = useState('');
+    const { control: controlInfo }             = useForm();
+    const [birthDate, setBirthDate]            = useState('');
+    const { isAuthenticated, isLoading, user } = useAuth();
 
     interface DataRegister {
-        username: string
-        password: string
-        cpf: number
-        birthDate: Date
-        fullname: string
+        username       : string
+        password       : string
+        cpf            : string
+        birthDate      : string
+        fullname       : string
+        accountNumber  : number
         confirmPassword: string
     }
 
@@ -40,11 +40,7 @@ export default function ProfilePage() {
         return null; // Não renderiza nada enquanto redireciona
     }
 
-    const { handleSubmit, register } = useForm<DataRegister>();
-
-    const {
-        control : controlInfo,
-    } = useForm()
+    console.log("user", user)
 
     return(
         <div className={styles.profilePage}>
@@ -56,12 +52,13 @@ export default function ProfilePage() {
                         <label htmlFor="nomeCompleto">Nome Completo</label>
                         <input
                             type="text"
-                            {...register("fullname", {
-                                validate: (value) =>
-                                    value.length >= 2 ||
-                                    "Seu nome deve possuir 2 caracteres no mínimo"
-                                })
-                            }
+                            defaultValue={user?.fullName}
+                            // {...register("fullname", {
+                            //     validate: (value) =>
+                            //         value.length >= 2 ||
+                            //         "Seu nome deve possuir 2 caracteres no mínimo"
+                            //     })
+                            // }
                             placeholder="Seu nome completo"
                         />
                     </div>
@@ -71,15 +68,16 @@ export default function ProfilePage() {
                         <input
                             type="email"
                             id="email"
+                            defaultValue={user?.username}
                             placeholder="seuemail@exemplo.com"
-                            {...register("username", {
-                                    required: "Este campo é obrigatório!",
-                                    pattern: {
-                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                        message: "Email inválido",
-                                    },
-                                }
-                            )}
+                            // {...register("username", {
+                            //         required: "Este campo é obrigatório!",
+                            //         pattern: {
+                            //             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            //             message: "Email inválido",
+                            //         },
+                            //     }
+                            // )}
                         />
                     </div>
 
@@ -88,6 +86,7 @@ export default function ProfilePage() {
                         <Controller
                             name="cpf"
                             control={controlInfo}
+                            defaultValue={user?.cpf}
                             render={({ field }) => (
                                 <PatternFormat
                                     {...field}
@@ -108,6 +107,7 @@ export default function ProfilePage() {
                         <Controller
                             name="birthday"
                             control={controlInfo}
+                            defaultValue={user?.birthDate}
                             render={({ field }) => (
                                 <PatternFormat
                                     {...field}
@@ -124,32 +124,19 @@ export default function ProfilePage() {
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="senha">Senha</label>
+                        <label htmlFor="nomeCompleto">Número da Conta</label>
                         <input
-                            type="password"
-                            placeholder="Mínimo 8 caracteres"
-                            {...register("password")}
+                            type="tel"
+                            // {...register("accountNumber", {
+                            //     validate: (value) =>
+                            //         value === 4 ||
+                            //         "Está faltando algum digito"
+                            //     })
+                            // }
+                            defaultValue={user?.accountNumber}
+                            placeholder="Número da Conta"
                         />
                     </div>
-
-                    <div className={styles.formGroup}>
-                        <label htmlFor="confirmarSenha">Confirmar Senha</label>
-                        <input
-                            type="password"
-                            id="confirmarSenha"
-                            {...register("confirmPassword")}
-                            placeholder="Digite sua senha novamente"
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        className={styles.btnProfile}
-                        // onClick={handleSubmit(handleSubmitRegister)}
-                    >
-                        Cadastrar
-                    </button>
-                    <button onClick={logout}>Sair</button>
                 </form>
             </div>
         </div>
