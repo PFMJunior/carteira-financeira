@@ -40,7 +40,7 @@ export default function ProfilePage() {
         return null; // Não renderiza nada enquanto redireciona
     }
 
-    console.log("user", user)
+    // console.log("user", user)
 
     return(
         <div className={styles.profilePage}>
