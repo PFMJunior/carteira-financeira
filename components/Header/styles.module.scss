@@ -1,0 +1,21 @@
+.desktop {
+    position: sticky;
+    top: 0;
+}
+
+.mobile {
+    display: none;
+}
+
+@media only screen and (max-width: 1024px) {
+    .desktop {
+        display: none;
+    }
+
+    .mobile {
+        position: sticky;
+        top: 0;
+
+        display: block;
+    }
+}
