@@ -61,7 +61,7 @@ export default function RegisterPage() {
 
         try {
             // Requisição para o backend
-            const response = await fetch('http://localhost:5000/register', { // Certifique-se que a porta é a correta do seu backend
+            const response = await fetch('http://localhost:5000/api/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export default function RegisterPage() {
 
             if (response.ok) {
                 setMessage(result.message); // Exibe mensagem de sucesso do backend
-                toast.success(message);
+                toast.success('Usúario cadastrado com sucesso!');
                 router.push("/login");
             } else {
                 toast.error(result.message);
