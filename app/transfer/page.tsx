@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import styles from "./styles.module.scss";
 import { useAuth } from "../context/AuthContext";
 import { NumericFormat } from 'react-number-format';
+import useCurrencyFormatter from "../hooks/useCurrencyFormatter";
 
 export default function TransferPage() {
     const [amount, setAmount]                                 = useState('');
@@ -35,7 +36,7 @@ export default function TransferPage() {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/transfer', { // Certifique-se que esta URL está correta
+            const response = await axios.post('http://localhost:5000/api/auth/transfer', {
                 recipientAccountNumber: parseInt(recipientAccountNumber, 10),
                 amount: parseFloat(amount)
             }, {
@@ -62,11 +63,13 @@ export default function TransferPage() {
             <section className={styles.operationFormContainer}>
                 <h1>Transferir Saldo</h1>
                 <div className={styles.formCard}>
-                    <p className={styles.currentBalanceInfo}>Seu saldo atual é:
-                        <span className={styles.currentBalanceValue}>
-                            R$ {user?.balance !== undefined ? user.balance.toFixed(2) : '0.00'}
-                        </span>
-                    </p>
+                    {user && user?.balance &&
+                        <p className={styles.currentBalanceInfo}>Seu saldo atual é:
+                            <span className={styles.currentBalanceValue}>
+                                {useCurrencyFormatter(user?.balance.toFixed(2))}
+                            </span>
+                        </p>
+                    }
 
                     <form className={styles.depositForm} onSubmit={handleTransfer}>
                         <div className={styles.formGroup}>
@@ -83,15 +86,6 @@ export default function TransferPage() {
                         </div>
                         <div className={styles.formGroup}>
                             <label htmlFor="amount">Valor do Transferência:</label>
-                            {/* <input
-                                type="number"
-                                id="amount"
-                                name="amount"
-                                placeholder="Ex: 100.00"
-                                step="0.01"
-                                min="0.01"
-                                required
-                            /> */}
                             <NumericFormat
                                 id="input-moeda"
                                 value={amount}
@@ -106,15 +100,6 @@ export default function TransferPage() {
                                 required
                             />
                         </div>
-                        {/* <div className={styles.formGroup}>
-                            <label htmlFor="description">Observação (opcional):</label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                rows={3}
-                                placeholder="Ex: Depósito mensal"
-                            ></textarea>
-                        </div> */}
                         <button type="submit" className={styles.submitButton} disabled={isLoading}>
                             {isLoading ? 'Transferindo...' : 'Confirmar Transferência'}
                         </button>

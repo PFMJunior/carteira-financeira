@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import styles from "./styles.module.scss";
 import { useAuth } from "../context/AuthContext";
 import { NumericFormat } from 'react-number-format';
+import useCurrencyFormatter from '../hooks/useCurrencyFormatter';
 
 export default function DepositPage() {
     const [valor, setValor]       = useState('');
@@ -34,7 +35,7 @@ export default function DepositPage() {
                 return;
             }
 
-            const response = await axios.post('http://localhost:5000/deposit', {
+            const response = await axios.post('http://localhost:5000/api/auth/deposit', {
                 amount: parseFloat(valor) // Envia o valor como número
             }, {
                 headers: {
@@ -62,24 +63,17 @@ export default function DepositPage() {
             <section className={styles.operationFormContainer}>
                 <h1>Depositar Saldo</h1>
                 <div className={styles.formCard}>
-                    <p className={styles.currentBalanceInfo}>Seu saldo atual é:
-                        <span className={styles.currentBalanceValue}>
-                            R$ {user?.balance !== undefined ? user.balance.toFixed(2) : '0.00'}
-                        </span>
-                    </p>
+                    {user && user?.balance &&
+                        <p className={styles.currentBalanceInfo}>Seu saldo atual é:
+                            <span className={styles.currentBalanceValue}>
+                                {useCurrencyFormatter(user?.balance.toFixed(2))}
+                            </span>
+                        </p>
+                    }
 
                     <form className={styles.depositForm} onSubmit={handleSubmit}>
                         <div className={styles.formGroup}>
                             <label htmlFor="amount">Valor do Depósito:</label>
-                            {/* <input
-                                type="number"
-                                id="amount"
-                                name="amount"
-                                placeholder="Ex: 100.00"
-                                step="0.01"
-                                min="0.01"
-                                required
-                            /> */}
                             <NumericFormat
                                 id="input-moeda"
                                 value={valor}
@@ -94,15 +88,6 @@ export default function DepositPage() {
                                 required
                             />
                         </div>
-                        {/* <div className={styles.formGroup}>
-                            <label htmlFor="description">Observação (opcional):</label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                rows={3}
-                                placeholder="Ex: Depósito mensal"
-                            ></textarea>
-                        </div> */}
                         <button type="submit" className={styles.submitButton} disabled={loading}>
                             {loading ? 'Processando...' : 'Confirmar Depósito'}
                         </button>
