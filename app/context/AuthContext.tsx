@@ -1,21 +1,26 @@
 'use client';
 
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 
 interface UserData {
-    username : string
-    fullName : string
-    cpf      : number
-    birthDate: Date
+    id           : number;
+    username     : string;
+    fullName     : string;
+    cpf          : string;
+    birthDate    : string;
+    balance      : number;
+    accountNumber: number;
 }
 
 interface AuthContextType {
-    // user           : UserData | null;
+    user           : UserData | null;
     isAuthenticated: boolean;
     login          : (token: string) => void;
     logout         : () => void;
     isLoading      : boolean;
+    fetchUserData  : () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,33 +31,50 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const router                                = useRouter();
+    const [user, setUser]                       = useState<UserData | null>(null);
     const [isLoading, setIsLoading]             = useState<boolean>(true); // Começa como true para indicar que está carregando
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-    useEffect(() => {
+    const fetchUserData = async () => {
+        setIsLoading(true);
         const token = localStorage.getItem('jwt_token');
         if (token) {
-            // Aqui você poderia adicionar uma lógica para validar o token no backend
-            // Se for um JWT, você pode decodificá-lo e verificar a expiração
-            // Por simplicidade, vamos apenas verificar se ele existe
-            setIsAuthenticated(true);
+            try {
+                const response = await axios.get('http://localhost:5000/user-data', { // Nova rota que vamos criar
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setUser(response.data.user);
+                setIsAuthenticated(true);
+            } catch (error) {
+                console.error('Erro ao buscar dados do usuário:', error);
+                // Se o token for inválido/expirado, deslogar
+                logout();
+            }
         }
-        setIsLoading(false); // Termina o carregamento após a verificação inicial
+        setIsLoading(false);
+    };
+
+    useEffect(() => {
+        fetchUserData();
     }, []);
 
     const login = (token: string) => {
         localStorage.setItem('jwt_token', token);
         setIsAuthenticated(true);
+        fetchUserData();
     };
 
     const logout = () => {
         localStorage.removeItem('jwt_token');
         setIsAuthenticated(false);
+        setUser(null);
         router.push('/login'); // Redireciona para a página de login ao deslogar
     };
 
     return(
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, isLoading }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, isLoading, fetchUserData }}>
             {children}
         </AuthContext.Provider>
     );
