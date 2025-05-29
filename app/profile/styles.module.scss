@@ -20,7 +20,7 @@
             color: var(--white);
             font-size: 2.2rem;
             font-weight: bold;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
         }
 
         .profileSubtitle {
@@ -128,16 +128,17 @@
 }
 
 @media only screen and (max-width: 1024px) {
-    .profileCard {
-        min-height: calc(100vh - 70px);
-        padding: 2.5rem;
+    .profilePage {
+        .profileCard {
+            padding: 2rem;
 
-        .profileTitle {
-            font-size: 1.8rem;
-        }
+            .profileTitle {
+                font-size: 1.8rem;
+            }
 
-        .btnProfile {
-            font-size: 1rem;
+            .btnProfile {
+                font-size: 1rem;
+            }
         }
     }
 }
