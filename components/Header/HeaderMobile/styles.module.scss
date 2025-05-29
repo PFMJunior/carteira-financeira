@@ -1,0 +1,42 @@
+.headerMobile {
+    .headerContainer {
+        max-width: 1300px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        padding: 1rem 2rem;
+
+        img {
+            max-width: 12rem;
+            max-height: 12rem;
+            object-fit: cover;
+        }
+
+        svg {
+            color: var(--black);
+            font-size: 4rem;
+        }
+    }
+
+    .navigationMobile {
+        position: absolute;
+        top: 7rem;
+        z-index: 20;
+
+        background-color: var(--primary-color);
+        width: 100%;
+        
+
+        .listMobile {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            
+            padding: 1rem;
+        }
+    }
+}
