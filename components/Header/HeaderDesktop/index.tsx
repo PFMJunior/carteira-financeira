@@ -1,13 +1,14 @@
 'use client';
 
 import styles from "./styles.module.scss";
-import { IoIosMenu } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { AiOutlineDollar } from "react-icons/ai";
 import { useAuth } from "@/app/context/AuthContext";
+import useCurrencyFormatter from "@/app/hooks/useCurrencyFormatter";
 
 export default function Header() {
-    const router                    = useRouter();
-    const { logout }                = useAuth();
+    const router           = useRouter();
+    const { logout, user } = useAuth();
 
     return(
         <header className={styles.header}>
@@ -16,6 +17,12 @@ export default function Header() {
 
                 <nav className={styles.navigationDesktop}>
                     <ul>
+                        {user && user?.balance &&
+                            <div className={styles.value}>
+                                <AiOutlineDollar />
+                                <span>{useCurrencyFormatter(user?.balance.toFixed(2))}</span>
+                            </div>
+                        }
                         <li onClick={() => router.push("/profile")}>Perfil</li>
                         <li onClick={() => router.push("/deposit")}>Deposito</li>
                         <li onClick={() => router.push("/transfer")}>Transferência</li>
