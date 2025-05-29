@@ -35,26 +35,30 @@ export default function TransferPage() {
             return;
         }
 
-        try {
-            const response = await axios.post('http://localhost:5000/api/auth/transfer', {
-                recipientAccountNumber: parseInt(recipientAccountNumber, 10),
-                amount: parseFloat(amount)
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+        if(amount > recipientAccountNumber) {
+            toast.error('Saldo insuficiente para a transferência.');
+        } else {
+            try {
+                const response = await axios.post('http://localhost:5000/api/auth/transfer', {
+                    recipientAccountNumber: parseInt(recipientAccountNumber, 10),
+                    amount: parseFloat(amount)
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
 
-            toast.success(response.data.message);
-            setRecipientAccountNumber(''); // Limpa o campo do destinatário
-            setAmount(''); // Limpa o campo do valor
-            fetchUserData(); // Atualiza o saldo do usuário no contexto
-        } catch (error: any) {
-            console.error('Erro na transferência:', error);
-            const errorMessage = error.response?.data?.message || 'Erro ao realizar a transferência.';
-            toast.error(errorMessage);
-        } finally {
-            setIsLoading(false); // Desativa o estado de carregamento
+                toast.success(response.data.message);
+                setRecipientAccountNumber(''); // Limpa o campo do destinatário
+                setAmount(''); // Limpa o campo do valor
+                fetchUserData(); // Atualiza o saldo do usuário no contexto
+            } catch (error: any) {
+                console.error('Erro na transferência:', error);
+                const errorMessage = error.response?.data?.message || 'Erro ao realizar a transferência.';
+                toast.error(errorMessage);
+            } finally {
+                setIsLoading(false); // Desativa o estado de carregamento
+            }
         }
     };
 
@@ -63,13 +67,11 @@ export default function TransferPage() {
             <section className={styles.operationFormContainer}>
                 <h1>Transferir Saldo</h1>
                 <div className={styles.formCard}>
-                    {user && user?.balance &&
-                        <p className={styles.currentBalanceInfo}>Seu saldo atual é:
-                            <span className={styles.currentBalanceValue}>
-                                {useCurrencyFormatter(user?.balance.toFixed(2))}
-                            </span>
-                        </p>
-                    }
+                    <p className={styles.currentBalanceInfo}>Seu saldo atual é:
+                        <span className={styles.currentBalanceValue}>
+                            {useCurrencyFormatter(user?.balance.toFixed(2))}
+                        </span>
+                    </p>
 
                     <form className={styles.depositForm} onSubmit={handleTransfer}>
                         <div className={styles.formGroup}>
