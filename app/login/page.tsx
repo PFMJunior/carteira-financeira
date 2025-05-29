@@ -26,7 +26,7 @@ export default function LoginPage() {
 
         try {
             // Requisição POST para a sua rota de login do backend
-            const response = await axios.post('http://localhost:5000/login', {
+            const response = await axios.post('http://localhost:5000/api/auth/login', {
                 username: username, // O backend espera 'username'
                 password: password,
             });

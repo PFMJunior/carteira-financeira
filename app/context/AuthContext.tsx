@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const token = localStorage.getItem('jwt_token');
         if (token) {
             try {
-                const response = await axios.get('http://localhost:5000/user-data', { // Nova rota que vamos criar
+                const response = await axios.get('http://localhost:5000/api/user-data', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
