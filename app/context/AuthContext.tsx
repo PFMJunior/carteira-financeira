@@ -1,6 +1,8 @@
 'use client';
 
 import axios from "axios";
+import Header from "@/components/Header";
+import { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 
@@ -75,7 +77,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     return(
         <AuthContext.Provider value={{ user, isAuthenticated, login, logout, isLoading, fetchUserData }}>
+            {user && <Header />}
             {children}
+          
+            <Toaster
+                position="top-center"
+                reverseOrder={true}
+                containerStyle={{
+                fontSize : 16,
+                }}
+                toastOptions={{
+                duration : 2500,
+                }}
+            />
         </AuthContext.Provider>
     );
 };
