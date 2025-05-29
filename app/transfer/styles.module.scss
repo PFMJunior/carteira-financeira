@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
 
-    min-height: 100vh;
+    min-height: calc(100vh - 60px);
     padding: 4rem;
 
     .operationFormContainer {
@@ -114,5 +114,12 @@
                 }
             }
         }
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .transferPage {
+        min-height: calc(100vh - 70px);
+        padding: 2rem;
     }
 }
