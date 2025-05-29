@@ -17,12 +17,10 @@ export default function Header() {
 
                 <nav className={styles.navigationDesktop}>
                     <ul>
-                        {user && user?.balance &&
-                            <div className={styles.value}>
-                                <AiOutlineDollar />
-                                <span>{useCurrencyFormatter(user?.balance.toFixed(2))}</span>
-                            </div>
-                        }
+                        <div className={styles.value}>
+                            <AiOutlineDollar />
+                            <span>{useCurrencyFormatter(user?.balance.toFixed(2))}</span>
+                        </div>
                         <li onClick={() => router.push("/profile")}>Perfil</li>
                         <li onClick={() => router.push("/deposit")}>Deposito</li>
                         <li onClick={() => router.push("/transfer")}>Transferência</li>

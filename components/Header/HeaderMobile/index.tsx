@@ -18,12 +18,10 @@ export default function Header() {
             <div className={styles.headerContainer}>
                 <img src="/assets/img/logo-cobuccio.png" alt="" />
                 <div className={styles.left}>
-                    {user && user?.balance &&
-                        <div className={styles.value}>
-                            <AiOutlineDollar />
-                            <span>{useCurrencyFormatter(user?.balance.toFixed(2))}</span>
-                        </div>
-                    }
+                    <div className={styles.value}>
+                        <AiOutlineDollar />
+                        <span>{useCurrencyFormatter(user?.balance.toFixed(2))}</span>
+                    </div>
                     {openMenu ? <IoMdClose onClick={() => setOpenMenu(false)} /> : <IoIosMenu onClick={() => setOpenMenu(true)} /> }
                 </div>
             </div>

@@ -63,13 +63,11 @@ export default function DepositPage() {
             <section className={styles.operationFormContainer}>
                 <h1>Depositar Saldo</h1>
                 <div className={styles.formCard}>
-                    {user && user?.balance &&
-                        <p className={styles.currentBalanceInfo}>Seu saldo atual é:
-                            <span className={styles.currentBalanceValue}>
-                                {useCurrencyFormatter(user?.balance.toFixed(2))}
-                            </span>
-                        </p>
-                    }
+                    <p className={styles.currentBalanceInfo}>Seu saldo atual é:
+                        <span className={styles.currentBalanceValue}>
+                            {useCurrencyFormatter(user?.balance.toFixed(2))}
+                        </span>
+                    </p>
 
                     <form className={styles.depositForm} onSubmit={handleSubmit}>
                         <div className={styles.formGroup}>
