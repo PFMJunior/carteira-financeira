@@ -1,5 +1,3 @@
-'use client';
-
 import styles from "./styles.module.scss";
 import HeaderMobile  from "./HeaderMobile";
 import HeaderDesktop  from "./HeaderDesktop";
